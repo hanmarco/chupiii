@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import ImageAlbum from '@/components/ImageAlbum.vue'
+import HomeView from '../views/HomeView.vue'
+import ImageAlbum from '../components/ImageAlbum.vue'
 
 const routes = [
   {
@@ -10,9 +10,10 @@ const routes = [
   },
   {
     path: '/album/:bookId',
-    name: 'ImageAlbum',
+    name: 'album',
     component: ImageAlbum,
-    props: true
+    props: true,
+    meta: { hideAppBar: true }
   }
 ]
 

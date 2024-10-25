@@ -1,25 +1,27 @@
 <template>
-  <v-container v-if="imagesLoaded">
-    <v-row>
-      <v-col
-        v-for="(image, index) in images"
+  <div class="image-album">
+    <v-carousel v-if="imagesLoaded" v-model="currentSlide">
+      <v-carousel-item
+        v-for="(imagePair, index) in imagePairs"
         :key="index"
-        cols="12"
-        sm="6"
-        md="4"
       >
-        <v-card>
-          <v-img
-            :src="image"
-            aspect-ratio="1.5"
-            @error="onImageError(index)"
-          ></v-img>
-          <v-card-title>페이지 {{ index + 1 }}</v-card-title>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-  <v-progress-circular v-else indeterminate></v-progress-circular>
+        <v-row class="ma-0">
+          <v-col
+            v-for="(image, subIndex) in imagePair"
+            :key="subIndex"
+            class="d-flex align-center justify-center pa-0"
+          >
+            <v-img
+              :src="image"
+              contain
+              @error="onImageError(index * 2 + subIndex)"
+            ></v-img>
+          </v-col>
+        </v-row>
+      </v-carousel-item>
+    </v-carousel>
+    <v-progress-circular v-else indeterminate></v-progress-circular>
+  </div>
 </template>
 
 <script>
@@ -30,6 +32,7 @@ export default {
       images: [],
       maxPages: 28,
       imagesLoaded: false,
+      currentSlide: 0,
     };
   },
   async created() {
@@ -59,15 +62,32 @@ export default {
       this.imagesLoaded = true;
     },
     onImageError(index) {
-      // 이미지 로드 실패 시 기본 이미지로 대체
       this.images[index] = require('@/assets/logo.png');
+    },
+  },
+  computed: {
+    imagePairs() {
+      const pairs = [];
+      for (let i = 0; i < this.images.length; i += 2) {
+        pairs.push(this.images.slice(i, i + 2));
+      }
+      return pairs;
     },
   },
 };
 </script>
 
 <style scoped>
-.v-card {
-  margin-bottom: 16px;
+.image-album {
+  height: 70vh;
+  overflow: hidden;
+}
+
+.v-carousel {
+  height: 100% !important;
+}
+
+.v-carousel .v-window__container {
+  height: 100%;
 }
 </style>
