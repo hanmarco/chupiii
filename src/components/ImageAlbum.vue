@@ -1,19 +1,21 @@
 <template>
-  <div class="image-album">
-    <v-carousel v-if="imagesLoaded" v-model="currentSlide">
+  <div class="image-album d-flex align-center justify-center">
+    <v-carousel v-if="imagesLoaded" v-model="currentSlide" class="carousel-container w-100">
       <v-carousel-item
         v-for="(imagePair, index) in imagePairs"
         :key="index"
+        class="carousel-item"
       >
-        <v-row class="ma-0">
+        <v-row class="fill-height ma-0">
           <v-col
             v-for="(image, subIndex) in imagePair"
             :key="subIndex"
-            class="d-flex align-center justify-center pa-0"
+            class="d-flex align-center justify-center pa-0 fill-height"
           >
             <v-img
               :src="image"
               contain
+              class="fill-height"
               @error="onImageError(index * 2 + subIndex)"
             ></v-img>
           </v-col>
@@ -79,8 +81,16 @@ export default {
 
 <style scoped>
 .image-album {
-  height: 70vh;
-  overflow: hidden;
+  height: 100vh;
+}
+
+.carousel-container {
+  width: 80%;
+  height: 80vh;
+}
+
+.carousel-item {
+  height: 100%;
 }
 
 .v-carousel {
@@ -89,5 +99,9 @@ export default {
 
 .v-carousel .v-window__container {
   height: 100%;
+}
+
+.v-img {
+  max-height: 100%;
 }
 </style>
