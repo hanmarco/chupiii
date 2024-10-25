@@ -7,6 +7,12 @@ import router from './router'
 
 loadFonts()
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js');
+  });
+}
+
 createApp(App).use(router)
   .use(vuetify)
   .mount('#app')
