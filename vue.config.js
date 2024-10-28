@@ -1,4 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
+
 module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: process.env.NODE_ENV === 'production' ? '/chupiii/' : '/',
@@ -36,21 +38,19 @@ module.exports = defineConfig({
 			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
   },
-  chainWebpack: (config) => {
-    // asset-manifest.json 생성
-    if (process.env.NODE_ENV === 'production') {
-      config.plugin('manifest')
-        .use(require('webpack-manifest-plugin'), [{
-          fileName: 'asset-manifest.json',
-          publicPath: '/chupiii/',
-          generate: (seed, files) => {
-            const manifestFiles = files.reduce((manifest, file) => {
-              manifest[file.name] = file.path;
-              return manifest;
-            }, seed);
-            return manifestFiles;
-          }
-        }]);
-    }
+  configureWebpack: {
+    plugins: [
+      new WebpackManifestPlugin({
+        fileName: 'asset-manifest.json',
+        publicPath: process.env.NODE_ENV === 'production' ? '/chupiii/' : '/',
+        generate: (seed, files) => {
+          const manifestFiles = files.reduce((manifest, file) => {
+            manifest[file.name] = file.path;
+            return manifest;
+          }, seed);
+          return manifestFiles;
+        }
+      })
+    ]
   }
 })
