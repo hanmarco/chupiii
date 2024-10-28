@@ -2,21 +2,11 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   pwa: {
+    name: '앱 이름',
+    workboxPluginMode: 'InjectManifest',
     workboxOptions: {
-      runtimeCaching: [
-        {
-          urlPattern: new RegExp('.*\\.(?:png|jpg|jpeg|svg|gif)'),
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'image-cache',
-            expiration: {
-              maxEntries: 500,
-              maxAgeSeconds: 30 * 24 * 60 * 60,
-            },
-          },
-        },
-      ],
-    },
+      swSrc: 'src/service-worker.js'
+    }
   },
   pluginOptions: {
     vuetify: {
