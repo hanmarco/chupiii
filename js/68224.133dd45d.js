@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkapp"]=self["webpackChunkapp"]||[]).push([[68224],{68224:function(p,e,s){p.exports=s.p+"img/page-16.d01d57fc.png"}}]);
