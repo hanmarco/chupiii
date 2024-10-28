@@ -42,7 +42,7 @@ module.exports = defineConfig({
       config.plugin('manifest')
         .use(require('webpack-manifest-plugin'), [{
           fileName: 'asset-manifest.json',
-          publicPath: BASE_URL,
+          publicPath: '/chupiii/',
           generate: (seed, files) => {
             const manifestFiles = files.reduce((manifest, file) => {
               manifest[file.name] = file.path;
